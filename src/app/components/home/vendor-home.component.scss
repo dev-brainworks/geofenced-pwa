@@ -1,0 +1,32 @@
+.vendor-home-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.vendor-home-card {
+  text-align: center;
+  width: fit-content;
+  padding: 20px;
+}
+
+.image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.image-container img {
+  width: 600px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.login-overlay {
+  position: absolute;
+  top: 48%;
+  left: 75%;
+  transform: translate(-50%, -50%);
+  width: 250px;
+}

@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"panelPin.pinState": false,
+		"typescript.tsdk": "node_modules/typescript/lib"
+	}
+}

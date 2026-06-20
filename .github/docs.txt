@@ -1,0 +1,307 @@
+==============13Jun2026===============
+
+now hear me out on how I want this website/application to be structured :
+
+website's home page .. say when user visits .. www.<somehostingservice>.geofenceapp.com/index ... or something similar adress based on how the free hosting service generates the home url for our app/website ... will call this app's homepage henforth.
+
+on app's homepage we need ability for user login .. should some summary about how many companies currently are using this, etc we can add more stuff here later.
+This login is owner/vendor's employee login aka service provider login .
+now, when any company approaches, to be onboarded to this platform ... vendor logedin employee registers the company creates a cmpany login.
+once loggin he will have acess to vairous pages :
+www.<somehostingservice>.geofenceapp.com/onboarding
+www.<somehostingservice>.geofenceapp.com/reports
+www.<somehostingservice>.geofenceapp.com/settings
+
+He can do some customaizartion alround how that's comapny's home page should look like (basically per company branding).
+next vendor emplyee  can onbard that company'e employee using excel based bulk onboarding or 1-to-1 onboarding(using forms) as required
+next he can setup the company's geo location(s).
+
+when company owner wants to logins he would be visinting, to login :
+www.<somehostingservice>.geofenceapp.com/CompanyA/
+once loged in will be routed to its homepage, and  access to various page :
+www.<somehostingservice>.geofenceapp.com/CompanyA/home
+www.<somehostingservice>.geofenceapp.com/CompanyA/defaulters
+www.<somehostingservice>.geofenceapp.com/CompanyA/reports
+www.<somehostingservice>.geofenceapp.com/CompanyA/settings
+
+Both of above activiyt can be done by company's owner using his/her login account.
+
+this is of significance because ... the andriod app building/packaging part I'm thinking we provide above company wise url to app builder .. so that when the app open it directy is showing the homepage of that respective company only.
+
+Next when a employee of that company want to login he goes on company's login page : 
+www.<somehostingservice>.geofenceapp.com/CompanyA/
+once loged in will be routed to its homepage, and  access to various page :
+www.<somehostingservice>.geofenceapp.com/my/attendance
+www.<somehostingservice>.geofenceapp.com/my/approvals
+www.<somehostingservice>.geofenceapp.com/my/leave
+www.<somehostingservice>.geofenceapp.com/my/defaulters
+
+These are only urls that would be like this .. internally from coding perspective the same page will provide login, Home, attendance, leave, report, settings like functionality based of which current company and/or which current empyee was loaded ... need to figure out how to achive  this.
+
+=====================================
+
+Go through and follow all instructions from attached "Geofence-attendance-pwa.md.txt" file.
+We are in PlanMode.
+Lets build up base of this application the navigation menu(normal horizontal) manner when viewing in website mode and vertical collapsible via hamburger menu in mobile mode.
+
+=====================================
+# 📘 Implementation Plan: Role-Based Dynamic Navigation + Stub Pages + Logout
+
+---
+
+## 🚀 Navigation Rules
+- **Vendor routes** → `/[lowercase menu item]`  
+- **Company Admin routes** → `/:companyId/[lowercase menu item]`.  
+- **Employee routes** → `/:companyId/my/[lowercase menu item]`.  
+- **Manager routes** → same as Employee (`/:companyId/my/...`) but with **extra menu items** (Approvals, Defaulters).  
+- **Navigation menu** always visible (desktop horizontal, mobile collapsible hamburger).  
+- **Logout menu item** → present for all roles, clears session and redirects to role’s login widget.  
+
+---
+
+## 📂 File-Level Changes
+
+| **File** | **Action** | **Details of Changes** |
+|----------|------------|-------------------------|
+| `src/app/app.routes.ts` | **Modify** | Use **dynamic route parameters** for company identifier: `/:companyId/home`, `/:companyId/reports`, `/:companyId/my/home`, etc. The routes will be per role: Vendor → `/...`; Admin → `/:companyId/...`; Define **one set of Employee routes** under `/:companyId/my/...`. Add Manager-only routes (`/:companyId/my/approvals`, `/:companyId/my/defaulters`) without duplicating the rest. |
+| `src/app/services/auth.service.ts` | **Modify** | Store both `role`(`employee` or `manager`) and `companyId` after login. If role = `manager`, navigation menu includes Approvals + Defaulters in addition to Employee items. Implement `logout()` method: clear role + credentials, redirect to correct login page. Redirects include `companyId` in path.  (`/` for Vendor, `/:companyId` for Admin/Employee/Manager).|
+| `src/app/components/navigation/navigation.component.ts` | **Modify** | Build menu items dynamically using `companyId` from auth service. Example: Employee → `/${companyId}/my/calendar`. Build Employee menu items first. If role = `manager`, append Approvals + Defaulters. Add “Logout” menu item. On click → call `auth.service.logout()`, redirect to role’s login widget. |
+| `src/app/components/login/vendor-login.component.*` | **New Files** | Vendor login widget with dummy credentials. |
+| `src/app/components/login/company-login.component.*` | **New Files** | Shared login widget with role selector (Admin, Employee, Manager). Dummy credentials validated. |
+| `src/app/components/home/vendor-home.component.*` | **New Files** | Stub home page for Vendor. This page contains/embeds the Vendor login widget. |
+| `src/app/components/home/company-home.component.*` | **New Files** | Stub home page for Company it receives `companyId` via route params. This page contains/embeds the Shared login widget. |
+| `src/app/components/home/employee-home.component.*` | **New Files** | Stub home page for Employee with role wise Title text. The Stub page receives `companyId` via route params. Manager also lands here (same base home). |
+| `src/app/components/stubs/onboarding-stub.component.*` | **New Files** | Vendor-only stub page with card + static portrait image. |
+| `src/app/components/stubs/reports-stub.component.*` | **New Files** | Stub page with role wise Title text and card with static portrait image. The Stub page receives `companyId` via route params. |
+| `src/app/components/stubs/settings-stub.component.*` | **New Files** | Stub page with role wise Title text and card with static portrait image. The Stub page receives `companyId` via route params. |
+| `src/app/components/stubs/calendar-stub.component.*` | **New Files** | Stub page with role wise Title text and card with static portrait image. The Stub page receives `companyId` via route params. |
+| `src/app/components/stubs/leave-stub.component.*` | **New Files** | Stub page with role wise Title text and card with static portrait image. The Stub page receives `companyId` via route params. |
+| `src/app/components/stubs/approvals-stub.component.*` | **New Files** | Manager-only stub page with card + static portrait image. The Stub page receives `companyId` via route params. |
+| `src/app/components/stubs/defaulters-stub.component.*` | **New Files** | Manager-only stub page with card + static portrait image. The Stub page receives `companyId` via route params. |
+| `src/app/components/stubs/notifications-stub.component.*` | **New Files** | Stub page with role wise Title text and dummy single column list view like placeholders. The Stub page receives `companyId` via route params. |
+
+
+---
+
+
+## 📑 Route Structure
+
+- **Vendor routes**  
+  - `/home`, `/onboarding`, `/reports`, `/settings`, `/logout`
+
+- **Company Admin routes**  
+  - `/:companyId/home`, `/:companyId/defaulters`, `/:companyId/reports`, `/:companyId/settings`, `/:companyId/notifications`, `/:companyId/logout`
+
+- **Employee routes**  
+  - `/:companyId/my/home`, `/:companyId/my/calendar`, `/:companyId/my/leave`, `/:companyId/my/settings`, `/:companyId/my/notifications`, `/:companyId/my/logout`
+
+- **Manager-only routes** (extend Employee)  
+  - `/:companyId/my/approvals`, `/:companyId/my/defaulters`
+
+---
+
+## 📑 Stub Page Design
+
+- Each stub page contains:
+  - **Angular Material Card** (`mat-card`)  
+    - Inside card → **static portrait-mode image** (developer-provided placeholder, e.g., `/assets/stubs/<page>.png`).  
+  - Title text (e.g., “Reports Page Stub”) + current user role.  
+
+Example (Manager Approvals Stub):  
+```html
+<mat-card>
+  <mat-card-title>Approvals (Stub) - {{role}}</mat-card-title>
+  <img src="/assets/stubs/approvals.png" alt="Approvals Stub" style="width:100%; height:auto;" />
+</mat-card>
+```
+
+## 🔑 Test Flow
+- Vendor onboards a company → system generates companyId (e.g., companyA).
+- Developer visits `/` → logs in with Vendor dummy credentials → redirected to Vendor Home Stub.
+- Developer visits `/:companyId` → logs in with dummy credentials. 
+   - If **Admin credentials** → redirected to `/:companyId/home` with Admin menu items.  
+   - If **Employee credentials** → redirected to `/:companyId/my/home` with Employee menu items.  
+   - If **Manager credentials** → redirected to `/:companyId/my/home` with Employee menu items **plus Approvals + Defaulters**.  
+- Navigation menu dynamically builds URLs with companyId.
+- Navigation menu updates dynamically to show correct items (including Logout).
+- Clicking any menu item routes to its stub page (card + static portrait image).
+- Navigation menu remains visible and functional across all pages.
+- Clicking Logout clears session and redirects back to the role’s login widget page.
+
+## 🔑 Benefits
+- Multi-Tenant Support: Each company has its own namespace via companyId.
+- Dynamic Routing: Cleaner, scalable route structure.
+- Complete Stub Coverage: Every menu item has a stub page with a card + static image.
+- Persistent Navigation: Developers can move around freely to test flows.
+- Role-Based Routing: Routes follow `/`, `/:companyId`, `/:companyId/my` conventions.
+- Logout Flow: Clean logout returns user to correct login widget.
+- Mock Authentication: Dummy credentials simulate real login flows.
+- Future Expandability: Stubs can later be replaced with full implementations.
+
+## 🤖 Agent Instructions
+
+### 📐 Purpose
+This `.md` file defines the **Implementation Plan** for role-based navigation, login, stub pages, and logout functionality. Agents/Copilot must follow it exactly when moving into *ImplementationMode*.
+
+### 🔑 Rules
+1. **PlanMode vs ImplementationMode**  
+   - In *PlanMode*, only planning is done (no code).  
+   - In *ImplementationMode*, agents must deliver **full source code** for each file listed in the plan in the manner as mentioned in project's instruction file.  
+
+2. **Implementation Steps**  
+   - Create all new files listed in the plan.  
+   - Modify existing files exactly as described.  
+   - Ensure navigation menu persists across all pages.  
+   - Stub pages must display a card with a static portrait-mode image.  
+
+3. **Authentication & Logout**  
+   - Store both role and companyId in auth.service.ts.
+   - Redirects must include companyId.
+   - Use dummy credentials for each role (Vendor, Admin, Employee, Manager).  
+   - Implement `logout()` in `auth.service.ts` to clear session and redirect to the correct login widget page. Logout returns to /:companyId login widget. 
+
+4. **Routing & Navigation**  
+   - Dynamic Routing using companyId : Cleaner, scalable route structure.
+   - Follow route conventions:  
+     - Vendor → `/[lowercase menu item]`  
+     - :companyId Admin → `/:companyId/[lowercase menu item]`  
+     - Employee/Manager → `/:companyId/my/[lowercase menu item]`  
+   - Ensure “Home” routes to the correct stub home page depending on role.  
+   - Add “Logout” to all navigation menus.  
+
+5. **Testing Flow**  
+   - Verify login → role detection → navigation → stub page routing with companyId.  
+   - Ensure logout returns to the correct login widget.  
+   - Navigation menu must remain visible and functional across all pages.  
+
+6. **Consistency**  
+   - Respect theming, responsive design, and role segregation rules from the main project documentation.  
+   - Keep implementation modular (avoid breaking unrelated features).  
+
+7. **Future Expansion**  
+   - Stub pages serve as placeholders; later replace with full implementations (attendance, approvals, reports, etc.).  
+   - Maintain modularity so stubs can be swapped out without breaking navigation or authentication flows.  
+
+=====================================
+now lets move to ImplementationMode with this plan.
+
+==============14Jun2026===============
+extract single mobile ui Notification screen from attached image. I want to embed that image in a placeholder app to show notification screen. so the image should not contain any mobile device element just the notification UI screen. i want that image to be of 1080 x 1920, FHD, 9:16 portrait format
+create single mobile ui Settings screen in the same them and style as any screen from attached image. Add settings like choose theme expanded drop-down list [light, dark], allowed permissions list view [location, camera, biometrics] I want to embed that image in a placeholder app to show settings screen. so the image should not contain any mobile device element just the settings UI screen. i want that image to be of 1080 x 1920, FHD, 9:16 portrait format
+create single mobile ui Company home screen in the same theme and style as any screen from attached image. Add "Apex Solutions" company name, a appropriate tag line, some general background image, but the bottom 2/3rd I want a white round square empty div with not content in it. Don't add any navigation element, no services button, anything anywhere on the entire screen. I want to embed that image in a placeholder app to show company home screen. so the image should not contain any mobile device element just the company home UI screen. i want that image to be of 1080 x 1920, FHD, 9:16 portrait format 
+create single website home screen in the same theme and style as any screen from attached image. This screen will be the website home page for this multi-tenant application. Add "iSarthi" company name, a appropriate tag line, some general background image, but the right half of the screen I want a white round square empty div with no content in it. Don't add any navigation element, no services button, anything anywhere on the entire screen. I want to embed that image in a placeholder screen on vendor home screen. i want that image to be FHD and in appropriate format for wesite 
+
+======================================
+Go through and follow all instructions from attached "Geofence-attendance-pwa.md.txt" file.
+We are in PlanMode:
+Currently we have a pretty empty employee-home component(check attached *.ts.txt, *.scss.txt and *.html.txt) .. let create the component as shown in the attached image.
+
+here more detail how I want to component :
+1. The map that is drawn as the background of the card containing header banner "You are within the office area." and bottom banner "Active Geo-Fencing:" should be drawn based on user's current location. We need to fetch this info in such a way that it needs to work when this pwa application is packaged into an andriod app using PWABuilder online tool.
+2. The backend (currently we'll caculate this locally) will then tell based on user's current location and comparing that against company's location (currently mocked data hardcoded) to verify if the user is within company area or not.
+3. If he is not present within company area then the "Log-In Attendance" button will be disabled and top location is shown using red marker.
+4. If he is present within company area only then the "Log-In Attendance" button will be enabled and top location is shown using green marker.
+5. Check in time is current IST Time.
+6. The name is current employee username (recorded/fetched when he logged in to app 1st time)
+7. The date below name is today date.
+
+======================================
+| **Category** | **File** | **Action** | **Summary of Changes** |
+| --- | --- | --- | --- |
+| 🆕 **New Component Logic** | ``employee-home.component.ts`` | **Modify** | Add logic to fetch user’s current geolocation using the browser’s Geolocation API (works in Android TWA). Compare coordinates with hardcoded company location using ``geolib``. Determine if user is inside or outside the geofence. Fetch & display username from `AuthService`, current IST time, and today’s date. Enable/disable “Log-In Attendance” button accordingly. |
+| 🎨 **UI Template** | ``employee-home.component.html`` | **Modify** | Replace stub with full layout: greeting banner, date, map background, geofence status banner, attendance info card, and “Log-In Attendance” button. Use Angular Material components and dynamic bindings for location status, time, and username. |
+| 💅 **Styling** | ``employee-home.component.scss`` | **Modify** | Implement responsive design per ``.md`` file guidelines (9:16 portrait). Add map background styling, color-coded markers (green/red), and Material card layout. Use CSS variables for theme integration. |
+| 🧠 **Mock Data** | ``employee-home.component.ts`` | **Add** | Hardcode company coordinates (e.g., ``{ ``lat: ``19.0760, ``lon: ``72.8777 ``}`` for Mumbai). Mock username from ``AuthService``. |
+| 🕒 **Time Utility** | ``employee-home.component.ts`` | **Add** | Compute current IST time using ``new ``Date().toLocaleTimeString('en-IN', ``{ ``timeZone: ``'Asia/Kolkata' ``})``. |
+| 🧩 **Dependencies** | ``package.json`` | **Verify** | Ensure ``geolib`` is installed for distance calculation. |
+| 🧭 **Future Integration** | ``theme.service.ts`` (planned) | **Add (later)** | Integrate dynamic theming per company branding (light/dark mode). |
+| 📱 **Responsive Design** | ``employee-home.component.scss`` | **Modify** | Add responsive styling with two media query partitions (mobile ≤768px, desktop ≥769px). Style map container, banners, and button states. |
+
+
+## 🧮 Core Logic Outline
+ * Fetch Location:  
+    * Use `navigator.geolocation.getCurrentPosition()` to get latitude and longitude.
+ * Compare with Company Location:  
+    * Use `geolib.isPointWithinRadius()` to check if user is within 200 meters of company coordinates.
+ * Update UI State:
+    * Inside area → Green marker, “Log-In Attendance” enabled.
+    * Outside area → Red marker, button disabled.
+ * Display Info:
+    * Username from `AuthService`.
+    * Date from `new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).`
+    * Time from IST conversion.
+ * Responsive Layout:
+    * Portrait-first design (9:16).
+ * Using Material card 
+    * Header Banner: “You are within the office area.” / “You are outside the office area.”
+    * Map Container: Leaflet map with OSM tiles. This map is centered as background.
+    * Employee Info Card: Shows username + today’s date.
+    * Attendance Button: “Log-In Attendance” (enabled/disabled based on geofence).
+
+
+## Workflow Summary
+```mermaid
+  flowchart LR
+      A[Fetch User Location] --> B[Compare with Company Coordinates]
+      B --> C{Within Geo-Fence?}
+      C -- Yes --> D[Enable Log-In Button + Green Marker]
+      C -- No --> E[Disable Button + Red Marker]
+      D --> F[Display Check-In Time + Date + Username]
+```
+
+## Media Query to use : 
+```css
+    /* 📱 Mobile mode (up to 768px) */
+    @media (max-width: 768px) { ... }
+
+    /* 💻 Desktop mode (769px and above) */
+    @media (min-width: 769px) { ... }
+```
+
+## Example snippet for the background map using OpenStreetMap + Leaflet.js :
+```typescript
+    import * as L from 'leaflet';
+
+    ngAfterViewInit() {
+      const map = L.map('map').setView([this.userLat, this.userLon], 16);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
+
+      L.marker([this.userLat, this.userLon], {
+        icon: L.icon({
+          iconUrl: this.isWithinFence ? 'green-marker.png' : 'red-marker.png',
+          iconSize: [25, 41],
+          iconAnchor: [12, 41]
+        })
+      }).addTo(map);
+    }
+```
+## Example snipet to place map Marker Icons : 
+```typescript
+
+    // Define Marker Icons
+    const greenIcon = L.icon({
+      iconUrl: 'assets/icons/marker-green.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41]
+    });
+
+    const redIcon = L.icon({
+      iconUrl: 'assets/icons/marker-red.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41]
+    });
+
+    //Place Marker Based on Geofence Check
+    const isInside = geolib.isPointWithinRadius(
+      { latitude: this.userLat, longitude: this.userLon },
+      { latitude: this.companyLat, longitude: this.companyLon },
+      200 // radius in meters
+    );
+
+    L.marker([this.userLat, this.userLon], {
+      icon: isInside ? greenIcon : redIcon
+    }).addTo(map);
+```
+

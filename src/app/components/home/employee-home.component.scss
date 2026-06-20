@@ -1,0 +1,142 @@
+/* 🧩 Top Section */
+.greeting-card {
+  max-width: 650px;
+  margin: 20px auto;
+  padding: 16px;
+  text-align: left;
+  h2 {
+    font-size: 22px;
+    margin: 0;
+  }
+  p {
+    font-size: 14px;
+    color: #666;
+    margin: 4px 0 0;
+  }
+}
+
+/* 🗺️ Middle Section */
+.geofence-card {
+  position: relative;
+  max-width: 650px;
+  margin: 20px auto;
+  border-radius: 12px;
+  overflow: hidden;
+
+  .map-background {
+    height: 40vh;
+    width: 100%;
+  }
+  /* 🧱 White border overlay */
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 12px solid #fff; /* adjust thickness for desired padding */
+    border-radius: 12px;
+    pointer-events: none; /* ensures map remains clickable if needed */
+    box-sizing: border-box;
+    z-index: 2; /* sits above map but below banner/description */
+    /* ✨ Soft shadow for depth */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15),
+                inset 0 0 8px rgba(0, 0, 0, 0.05);
+  }
+
+  .banner {
+    position: absolute;
+    top: 12px;
+    left: 16px;
+    right: 16px;
+    background: rgba(0, 128, 0, 0.65);
+    color: #fff;
+    padding: 8px;
+    border-radius: 6px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .description {
+    position: absolute;
+    bottom: 12px;
+    left: 16px;
+    right: 16px;
+    background: rgba(121, 220, 236, 0.44);
+    padding: 10px;
+    border-radius: 6px;
+    h3 {
+      margin: 0 0 4px;
+      font-size: 16px;
+    }
+    p {
+      margin: 0;
+      font-size: 13px;
+      color: #444;
+    }
+  }
+}
+
+/* ⏰ Bottom Section */
+.attendance-card {
+  max-width: 650px;
+  margin: 20px auto;
+  padding: 16px;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: row;
+
+  .left {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    p {
+      display: flex;
+      justify-content: space-evenly;
+      flex-direction: column;
+      align-items: center;
+
+      .status {
+        font-weight: bold;
+        &.present {
+          color: green;
+        }
+      }
+
+    }
+  }
+  .right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    p {
+      display: flex;
+      justify-content: space-evenly;
+      flex-direction: column;
+      align-items: center;
+      .status {
+        font-weight: bold;
+      }
+    }
+    button {
+      font-weight: bold;
+      background-color: orange;
+      color: #fff;
+    }
+  }
+}
+
+/* 📱 Mobile mode (up to 768px) */
+@media (max-width: 768px) {
+  .map-background { height: 30vh; }
+  .greeting-card h2 { font-size: 18px; }
+  .description h3 { font-size: 14px; }
+  .right { align-items: center; }
+}
+
+/* 💻 Desktop mode (769px and above) */
+@media (min-width: 769px) {
+  .map-background { height: 50vh; }
+  .greeting-card h2 { font-size: 22px; }
+}

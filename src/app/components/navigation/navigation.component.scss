@@ -1,0 +1,140 @@
+.navigation-wrapper {
+  .nav-toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: var(--primary-color, #3f51b5);
+    color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;    
+  }
+
+  .menu-button {
+    z-index: 1100;
+  }
+
+  /* Container for sidenav + clickout area */
+  .floating-sidenav-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: 999;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .floating-sidenav {
+    width: 250px;
+    background-color: var(--primary-color, #3f51b5);
+    color: #fff;
+    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.3);
+    padding-top: 56px;
+    transition: transform 0.3s ease-in-out;
+
+    mat-nav-list {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      a{
+        width: 100%;
+        display: block;
+        padding-bottom: 5vh;
+        font-weight: bold;
+      }
+    }
+    /* Override Material Design tokens for list items */
+    --mat-list-list-item-label-text-color: #fff;
+    --mat-list-list-item-label-text-font: 'Roboto', sans-serif;
+    --mat-list-list-item-label-text-size: 16px;
+    --mat-list-list-item-label-text-weight: 500;
+    --mat-list-list-item-label-text-line-height: 1.5;
+
+    /* Optional hover effect */
+    a.mat-mdc-list-item:hover {
+      background-color: var(--secondary-color, #ffb400);
+      color: #000;
+      transform: translateX(4px);
+    }
+  }
+
+  .menu-clickout-area {
+    flex: 1;
+    height: 100%;
+    background: transparent;
+  }
+
+  mat-nav-list a {
+    font-size: 16px;
+    padding: 12px;
+    color: #fff;
+    border-radius: 4px;
+    margin: 4px 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+
+  mat-nav-list a:hover {
+    background-color: var(--secondary-color, #ffb400);
+    color: #000;
+    transform: translateX(4px);
+  }
+
+  .active-link {
+    background-color: var(--secondary-color, #ffb400);
+    color: #000;
+  }
+
+  mat-toolbar a,
+  mat-toolbar button {
+    color: #fff;
+    font-weight: 500;
+    margin: 0 4px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+
+  mat-toolbar a:hover,
+  mat-toolbar button:hover {
+    background-color: var(--secondary-color, #ffb400);
+    color: #000;
+    transform: translateY(-2px);
+    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.3);
+  }
+
+  /* 📱 Mobile mode (up to 768px) */
+  @media (max-width: 768px) {
+    .nav-toolbar {
+      justify-content: flex-start;
+    }
+
+    .desktop-menu {
+      display: none; // hide desktop menu
+    }
+
+    .menu-button {
+      display: inline-flex; // show hamburger
+    }
+  }
+
+  /* 💻 Desktop mode (769px and above) */
+  @media (min-width: 769px) {
+    .nav-toolbar {
+      justify-content: space-evenly;
+    }
+
+    .desktop-menu {
+      display: flex; // show desktop menu
+      .mat-mdc-button{
+        font-weight: bold;
+      }
+    }
+
+    .menu-button {
+      display: none; // hide hamburger
+    }
+  }
+}

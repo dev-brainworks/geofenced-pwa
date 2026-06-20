@@ -1,0 +1,40 @@
+<!-- 🧩 Top Section — Greeting & Date -->
+<mat-card class="greeting-card">
+  <div class="greeting">
+    <h2>Hi {{ username }} 👋</h2>
+    <p>{{ currentDate }}</p>
+  </div>
+</mat-card>
+
+<!-- 🗺️ Middle Section — Geo-Fence Status Card -->
+<mat-card class="geofence-card">
+  <div id="map" class="map-background"></div>
+
+  <!-- Banner aligned top over map -->
+  <div class="banner">
+    {{ isWithinFence ? 'You are within the office area.' : 'You are outside the office area.' }}
+  </div>
+
+  <!-- Description aligned bottom over map -->
+  <div class="description">
+    <h3>Active Geo-Fencing:</h3>
+    <p>App checks location only when opened. If within fence, use creds to log in.</p>
+  </div>
+</mat-card>
+
+<!-- ⏰ Bottom Section — Attendance Details Card -->
+<mat-card class="attendance-card">
+    <!-- Left column -->
+    <div class="left">
+      <p><span>Check-in time</span><span class="status">{{ currentTime }}</span></p>
+      <p><span>Status</span><span class="status" [class.present]="isWithinFence">{{ isWithinFence ? 'Present' : 'Absent' }}</span></p>
+    </div>
+
+    <!-- Right column -->
+    <div class="right">
+      <p><span>Office-Out time</span><span class="status">--:--</span></p>
+      <button mat-raised-button color="primary" [disabled]="!isWithinFence">
+        Log-In Attendance
+      </button>
+    </div>
+</mat-card>
