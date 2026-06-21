@@ -14,6 +14,10 @@
     {
       "src": "/.well-known/assetlinks.json",
       "dest": "/.well-known/assetlinks.json",
+      "headers": {
+        "key": "Content-Type",
+        "value": "application/json"
+      },
       "continue": false
     },
     {
@@ -22,7 +26,7 @@
       "continue": false
     },
     {
-      "src": "/(.*)\\.(js|css|ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|webmanifest|json)$",
+      "src": "/(.*)\\.(js|css|ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|json|webmanifest)$",
       "headers": {
         "Cache-Control": "public, max-age=31536000, immutable"
       }
