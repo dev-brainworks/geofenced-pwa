@@ -3,7 +3,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "headers": [
     {
-      "source": "/(.*\\.)?(webmanifest|xml|txt|js|css|ico|jpg|jpeg|gif|png|svg|woff|woff2|ttf|eot)$",
+      "source": "/(.*\\.)?(json|webmanifest|xml|txt|js|css|ico|jpg|jpeg|gif|png|svg|woff|woff2|ttf|eot)$",
       "headers": [
         {
           "key": "X-Robots-Tag",
@@ -37,11 +37,9 @@
       "continue": false
     },
     {
-      "src": "/(.*)\\.(js|css|ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|webmanifest)$",
+      "src": "/(.*)\\.(js|css|ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|webmanifest|json)$",
       "headers": {
-        "Cache-Control": "public, max-age=31536000, immutable",
-        "X-Robots-Tag": "noindex",
-        "x-vercel-protection-bypass": "G6qtzfh5NQraeOjuI8VYVKg6dcTAFLve"
+        "Cache-Control": "public, max-age=31536000, immutable"
       }
     },
     {
