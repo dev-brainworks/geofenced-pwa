@@ -12,6 +12,11 @@
       "continue": false
     },
     {
+      "src": "/.well-known/assetlinks.json",
+      "dest": "/.well-known/assetlinks.json",
+      "continue": false
+    },
+    {
       "src": "/offline.html",
       "dest": "/offline.html",
       "continue": false
