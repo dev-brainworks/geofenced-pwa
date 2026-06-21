@@ -2,7 +2,7 @@
       "relation": ["delegate_permission/common.handle_all_urls"],
       "target": {
         "namespace": "android_app",
-        "package_name": "app.vercel.project_hdyco_7faps9s5i_brainworks.twa",
+        "package_name": "app.vercel.project_brainworks.twa",
         "sha256_cert_fingerprints": ["26:A6:42:46:8D:F6:AA:15:F5:B4:A6:6F:10:43:6E:8B:E6:5E:F9:4B:79:A3:4B:D0:AE:A3:2A:DE:0F:85:18:A5"]
       }
     }]
