@@ -10,8 +10,8 @@
     }
   ],
   "rewrites": [
-    { "source": "/manifest.webmanifest", "destination": "/manifest.webmanifest" },
-    { "source": "/offline.html", "destination": "/offline.html" },
+    { "source": "/manifest.webmanifest", "destination": "dist/geofence-attendance-pwa/browser/manifest.webmanifest" },
+    { "source": "/offline.html", "destination": "dist/geofence-attendance-pwa/browser/offline.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
