@@ -1,21 +1,6 @@
 {
 
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "headers": [
-    {
-      "source": "/(.*\\.)?(json|webmanifest|xml|txt|js|css|ico|jpg|jpeg|gif|png|svg|woff|woff2|ttf|eot)$",
-      "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex"
-        },
-        {
-          "key": "x-vercel-protection-bypass",
-          "value": "G6qtzfh5NQraeOjuI8VYVKg6dcTAFLve"
-        }
-      ]
-    }
-  ],
   "routes": [
     {
       "src": "/manifest.webmanifest",
