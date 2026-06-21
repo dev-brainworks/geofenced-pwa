@@ -10,6 +10,7 @@ import { LeaveStubComponent } from './components/stubs/leave-stub.component';
 import { ApprovalsStubComponent } from './components/stubs/approvals-stub.component';
 import { DefaultersStubComponent } from './components/stubs/defaulters-stub.component';
 import { NotificationsStubComponent } from './components/stubs/notifications-stub.component';
+import { LandingComponent } from './components/home/landing.component';
 
 export const routes: Routes = [
   // Vendor routes
@@ -37,5 +38,5 @@ export const routes: Routes = [
   { path: ':companyId/my/defaulters', component: DefaultersStubComponent },
 
   // Default redirect
-  { path: '', redirectTo: '/home', pathMatch: 'full' }
+  { path: '', component: LandingComponent }
 ];

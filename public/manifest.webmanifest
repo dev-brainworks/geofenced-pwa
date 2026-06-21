@@ -1,0 +1,23 @@
+{
+  "name": "Geofenced Attendance App",
+  "short_name": "GeofencedPWA",
+  "description": "Geofenced Attendance App",
+  "start_url": "/apex/home",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1976d2",
+  "icons": [
+    {
+      "src": "assets/icons/greenmarker_135x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/greenmarker_360x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "id": "geofenced-v0.1",
+  "orientation": "portrait"
+}
