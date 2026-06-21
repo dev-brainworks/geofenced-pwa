@@ -1,17 +1,30 @@
 {
 
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "headers": [
+  "routes": [
     {
-      "source": "/manifest.webmanifest",
-      "headers": [
-        { "key": "Content-Type", "value": "application/manifest+json" }
-      ]
+      "src": "/manifest.webmanifest",
+      "dest": "/manifest.webmanifest",
+      "headers": {
+        "key": "Content-Type",
+        "value": "application/manifest+json"
+      },
+      "continue": false
+    },
+    {
+      "src": "/offline.html",
+      "dest": "/offline.html",
+      "continue": false
+    },
+    {
+      "src": "/(.*)\\.(js|css|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|webmanifest)$",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
-  ],
-  "rewrites": [
-    { "source": "/manifest.webmanifest", "destination": "dist/geofence-attendance-pwa/browser/manifest.webmanifest" },
-    { "source": "/offline.html", "destination": "dist/geofence-attendance-pwa/browser/offline.html" },
-    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
