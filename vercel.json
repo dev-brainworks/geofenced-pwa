@@ -8,5 +8,10 @@
         { "key": "Content-Type", "value": "application/manifest+json" }
       ]
     }
+  ],
+  "rewrites": [
+    { "source": "/manifest.webmanifest", "destination": "/manifest.webmanifest" },
+    { "source": "/offline.html", "destination": "/offline.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
