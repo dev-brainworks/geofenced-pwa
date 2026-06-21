@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Offline - Geofence Attendance</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    :root {
+      --primary-color: #0047AB;   /* baseline light theme */
+      --secondary-color: #FFB400;
+      --background-color: #FFFFFF;
+      --text-color: #000000;
+    }
+
+    :root.dark {
+      --primary-color: #003580;   /* baseline dark theme */
+      --secondary-color: #CC8A00;
+      --background-color: #121212;
+      --text-color: #FFFFFF;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Roboto", Arial, sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    .card {
+      background: var(--background-color);
+      border: 2px solid var(--primary-color);
+      border-radius: 8px;
+      padding: 5vh 5vw;
+      width: 90vw;
+      max-width: 400px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+      color: var(--primary-color);
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    button {
+      background: var(--primary-color);
+      color: var(--background-color);
+      border: none;
+      padding: 0.8rem 1.2rem;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: var(--secondary-color);
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>⚠️ You’re Offline</h1>
+    <p>It looks like you’ve lost your connection.<br>
+       Attendance features and reports require internet access.</p>
+    <button onclick="location.reload()">🔄 Retry</button>
+  </div>
+</body>
+</html>

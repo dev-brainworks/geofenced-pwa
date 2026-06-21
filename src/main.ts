@@ -11,3 +11,12 @@ bootstrapApplication(App, {
     importProvidersFrom(BrowserAnimationsModule)
   ]
 }).catch(err => console.error(err));
+
+// ✅ Register Angular Service Worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/ngsw-worker.js')
+      .then(reg => console.log('Service Worker registered', reg))
+      .catch(err => console.error('Service Worker registration failed', err));
+  });
+}
