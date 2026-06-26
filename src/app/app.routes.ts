@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { VendorLoginComponent } from './components/login/vendor-login.component';
 import { VendorHomeComponent } from './components/home/vendor-home.component';
 import { CompanyHomeComponent } from './components/home/company-home.component';
 import { EmployeeHomeComponent } from './components/home/employee-home.component';
@@ -14,6 +15,7 @@ import { LandingComponent } from './components/home/landing.component';
 
 export const routes: Routes = [
   // Vendor routes
+  { path: 'login', component: VendorLoginComponent },
   { path: 'home', component: VendorHomeComponent },
   { path: 'onboarding', component: OnboardingStubComponent },
   { path: 'reports', component: ReportsStubComponent },

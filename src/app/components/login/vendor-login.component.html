@@ -1,18 +1,32 @@
-<mat-card>
-  <!--<mat-card-title>Vendor Login</mat-card-title>-->
-  <mat-card-content>
-    <form>
-      <mat-form-field appearance="fill">
-        <mat-label>Username</mat-label>
-        <input matInput [(ngModel)]="username" name="username">
-      </mat-form-field>
+<div class="vendor-login-wrapper">
+  <mat-card class="vendor-login-card">
+    <!--<mat-card-title>Vendor Home (Stub)</mat-card-title>-->
+    <div class="image-container">
+      <img src="/assets/stubs/vendor-login.png" alt="Vendor Login Stub" />
+      <div class="login-overlay">
+        <ng-container *ngTemplateOutlet="loginTemplate"></ng-container>
+      </div>
+    </div>
+  </mat-card>
+</div>
 
-      <mat-form-field appearance="fill">
-        <mat-label>Password</mat-label>
-        <input matInput [(ngModel)]="password" name="password" type="password">
-      </mat-form-field>
+<ng-template #loginTemplate>
+  <mat-card class="vendor-login-form">
+    <!--<mat-card-title>Vendor Login</mat-card-title>-->
+    <mat-card-content>
+      <form>
+        <mat-form-field appearance="fill">
+          <mat-label>Username</mat-label>
+          <input matInput [(ngModel)]="username" name="username">
+        </mat-form-field>
 
-      <button mat-raised-button color="primary" (click)="login()">Login</button>
-    </form>
-  </mat-card-content>
-</mat-card>
+        <mat-form-field appearance="fill">
+          <mat-label>Password</mat-label>
+          <input matInput [(ngModel)]="password" name="password" type="password">
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" (click)="login()">Login</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</ng-template>

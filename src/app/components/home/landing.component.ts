@@ -12,7 +12,7 @@ export class LandingComponent {
   constructor(private router: Router) {}
 
   goToVendor(): void {
-    this.router.navigate(['/home']);
+    this.router.navigate(['/login']);
   }
 
   goToApexHome(): void {

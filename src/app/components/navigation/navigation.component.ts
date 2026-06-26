@@ -113,6 +113,13 @@ export class NavigationComponent implements OnInit {
     this.menuItems.push({ label: 'Logout', onClick: () => this.logout() });
   }
 
+  handleMenuItemClick(item: MenuItem): void {
+    if (item.onClick) {
+      item.onClick();
+    }
+    this.closeMenu(); // always close after click
+  }
+  
   logout(): void {
     this.authService.logout();
   }

@@ -35,7 +35,6 @@
   flex-direction: column;
   margin: 40px auto;
   padding: 20px;
-  height: 73vh;
 
   mat-form-field {
     width: 100%;
@@ -46,3 +45,5 @@
     width: 100%;
   }
 }
+
+
